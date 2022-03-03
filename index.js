@@ -2,9 +2,9 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const request = require("request-promise");
-const pretty = require("pretty");
 const fetch = require("node-fetch");
-
+const fs = require("fs")
+var url = "https://prt.wostreaming.net/prt/nowplaying/2/20/6312/nowplaying.json";
 
 class Song{ // Song class - creates a song object
     constructor(name, artist, duration, coverurl = null){
@@ -13,6 +13,7 @@ class Song{ // Song class - creates a song object
         this.duration = duration;
         this.coverurl = coverurl;
     }
+    
 }
 
 class Station{ // Station class: creates a radio station
@@ -66,11 +67,17 @@ async function fetchHTML(url) {
 
 }
 
+fetch(url)
+    .then(result => result.json())
+    .then((output) => {
+        console.log("Writing...");
+        fs.writeFile("songsdata.json", JSON.stringify(output), placeholder);
 
+          
+}).catch(err => console.error(err));
+
+fetch(url);
+const placeholder = function(){
+    console.log("Written.");
     
-fetchHTML("https://v7player.wostreaming.net/7861");
-
-
-
-
-
+}
